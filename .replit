@@ -16,3 +16,19 @@ ignorePorts = false
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[workflows]
+runButton = "Run App"
+
+[[workflows.workflow]]
+name = "Run App"
+author = 23630087
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Server && npm install && node index.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Client && npm install && npm run dev -- --host 0.0.0.0"

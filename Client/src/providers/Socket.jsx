@@ -1,3 +1,4 @@
+
 import { createContext, useContext } from "react";
 import { io } from "socket.io-client";
 
@@ -8,7 +9,10 @@ export const useSocket = () => {
 };
 
 export default function SocketProvider({ children }) {
-  const socket = io("http://localhost:3000");
+  const socket = io(window.location.hostname === 'localhost' 
+    ? "http://localhost:3000"
+    : window.location.origin);
+    
   return (
     <SocketContext.Provider value={{ socket }}>
       {children}

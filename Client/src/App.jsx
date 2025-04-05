@@ -4,10 +4,28 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-const socket = io('http://0.0.0.0:3000')
+const socket = io('http://localhost:3000')
 
 function App() {
   const [count, setCount] = useState(0)
+  const [connected, setConnected] = useState(false)
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to server');
+      setConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+      setConnected(false);
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
 
   return (
     <>

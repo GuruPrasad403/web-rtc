@@ -1,8 +1,9 @@
+
 const express = require("express");
 const { Server } = require("socket.io");
 const app = express();
 const server = app.listen(5000, "0.0.0.0", () => {
-  console.log("Server running on port 3000");
+  console.log("Server running on port 5000");
 });
 
 const io = new Server(server, {

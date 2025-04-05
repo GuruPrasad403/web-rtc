@@ -1,20 +1,28 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSocket } from "../providers/Socket";
 
 export default function Home() {
+  const { socket } = useSocket();
   const [emailId, setEmailId] = useState("");
   const [roomCode, setRoomCode] = useState("");
   const handelSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(emailId, roomCode);
+      socket.emit("join-room", { emailId, roomCode });
     },
     [emailId, roomCode],
   );
+
+  useEffect(() => {
+    socket.on("joined-room", (data) => {
+      console.log(data);
+    });
+  }, [socket]);
   return (
     <div>
       <h1>Lobby </h1>
       <div>
-        <form>
+        <form method="POST">
           <div>
             Room Code {"\t"}
             <input

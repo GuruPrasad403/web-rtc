@@ -10,7 +10,7 @@ export const useSocket = () => {
 export default function SocketProvider({ children }) {
   const socket = io(
     window.location.hostname === "localhost"
-      ? "http://localhost:3000"
+      ? "http://localhost:5000"
       : window.location.origin,
   );
 

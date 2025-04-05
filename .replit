@@ -9,7 +9,7 @@ channel = "stable-23_05"
 language = "nodejs"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["sh", "-c", "cd Server && node index.js"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
 
@@ -28,7 +28,6 @@ exposeLocalhost = true
 
 [[ports]]
 localPort = 5174
-externalPort = 3000
 
 [workflows]
 runButton = "Run App"

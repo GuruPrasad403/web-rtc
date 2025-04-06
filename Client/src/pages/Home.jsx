@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSocket } from "../providers/Socket";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { socket } = useSocket();
   const [emailId, setEmailId] = useState("");
   const [roomCode, setRoomCode] = useState("");
+  const navigate = useNavigate();
   const handelSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -13,10 +15,17 @@ export default function Home() {
     [emailId, roomCode],
   );
 
+  const handelRoomJoined = useCallback((data) => {
+    const { eamilId, roomCode } = data;
+    navigate(`/room/${roomCode}`);
+    // console.log("room joined", { eamilId, roomCode });
+  });
+
   useEffect(() => {
-    socket.on("joined-room", (data) => {
-      console.log(data);
-    });
+    socket.on("joined-room", handelRoomJoined);
+    return () => {
+      socket.off("joined-room", handelRoomJoined);
+    };
   }, [socket]);
   return (
     <div>
